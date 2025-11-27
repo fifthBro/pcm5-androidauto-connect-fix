@@ -1,0 +1,679 @@
+.inner private {
+    name: DeviceActivationRequestHandler,
+    inner: de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler,
+    outer: de/audi/app/terminalmode/device/DeviceManager
+}
+.inner {
+    inner: de/audi/app/terminalmode/device/DeviceManager$1
+}
+.inner public static interface abstract {
+    name: IDeviceControlToDeviceManager,
+    inner: de/audi/app/terminalmode/device/TMDeviceControl$IDeviceControlToDeviceManager,
+    outer: de/audi/app/terminalmode/device/TMDeviceControl
+}
+.inner public static {
+    name: ConnectionState,
+    inner: de/audi/app/terminalmode/device/TMDevice$ConnectionState,
+    outer: de/audi/app/terminalmode/device/TMDevice
+}
+.inner private {
+    name: DeviceMappings,
+    inner: de/audi/app/terminalmode/device/DeviceManager$DeviceMappings,
+    outer: de/audi/app/terminalmode/device/DeviceManager
+}
+.inner public static {
+    name: UserAcceptState,
+    inner: de/audi/app/terminalmode/device/TMDevice$UserAcceptState,
+    outer: de/audi/app/terminalmode/device/TMDevice
+}
+.sourcefile "DeviceManager.java"
+.super java/lang/Object
+.implements de/audi/app/terminalmode/device/TMDeviceControl$IDeviceControlToDeviceManager
+.class super de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler {
+
+    .field private static final LOGCLASS Ljava/lang/String; {value: "DeviceManager.DeviceActivationRequestHandler"}
+    .field private runningActivationRequest Lde/audi/app/terminalmode/device/TMDeviceControl;
+    .field private final synthetic this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+
+    .method private <init> (Lde/audi/app/terminalmode/device/DeviceManager;)V {
+        parameters: { this, v1 },
+        code: {
+        A:
+            line 885
+            aload this
+            aload v1
+            putfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            aload this
+            invokespecial java/lang/Object.<init> ()V
+        B:
+            line 890
+            aload this
+            aconst_null
+            putfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.runningActivationRequest Lde/audi/app/terminalmode/device/TMDeviceControl;
+            return
+        C:
+        }
+    }
+
+    .method public requestActivation (Lde/audi/app/terminalmode/device/TMDeviceControl;)V {
+        parameters: { this, deviceToBeActivated },
+        code: {
+        A:
+            line 903
+            aload deviceToBeActivated
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.getTmDevice ()Lde/audi/app/terminalmode/device/TMDevice;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual java/lang/Object.equals (Ljava/lang/Object;)Z
+            ifeq C
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual de/audi/app/terminalmode/device/TMDevice.isActive ()Z
+            ifeq C
+        B:
+            line 905
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$400 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/log/LogChannel;
+            ldc 1000000
+            ldc "<!> [%1.requestActivation] NOP because already active - %2."
+            ldc "DeviceManager.DeviceActivationRequestHandler"
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual de/audi/atip/log/LogChannel.log (ILjava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+            goto P
+        C:
+            line 907
+            getstatic de/audi/app/terminalmode/device/TMDevice$ConnectionState.NOT_ATTACHED Lde/audi/app/terminalmode/device/TMDevice$ConnectionState;
+            aload deviceToBeActivated
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.getTmDevice ()Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual de/audi/app/terminalmode/device/TMDevice.connectionState ()Lde/audi/app/terminalmode/device/TMDevice$ConnectionState;
+            invokevirtual de/audi/app/terminalmode/device/TMDevice$ConnectionState.is (Ljava/lang/Object;)Z
+            ifeq F
+        D:
+            line 909
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$400 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/log/LogChannel;
+            ldc 1000000
+            ldc "<!> [%1.requestActivation] NOP because not longer attached - %2."
+            ldc "DeviceManager.DeviceActivationRequestHandler"
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual de/audi/atip/log/LogChannel.log (ILjava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+        E:
+            line 911
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokevirtual de/audi/app/terminalmode/device/DeviceManager.resetStartupActivation ()V
+            goto P
+        F:
+            line 915
+            aload this
+            aload deviceToBeActivated
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.getTmDevice ()Lde/audi/app/terminalmode/device/TMDevice;
+            invokespecial de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.moveSelectionMarker (Lde/audi/app/terminalmode/device/TMDevice;)V
+        G:
+            line 917
+            getstatic de/audi/app/terminalmode/device/TMDevice.INVALID Lde/audi/app/terminalmode/device/TMDevice;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual java/lang/Object.equals (Ljava/lang/Object;)Z
+            ifeq J
+        H:
+            line 919
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$400 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/log/LogChannel;
+            ldc 1000000
+            ldc "<!> [%1.requestActivation] nothing active, activation confirmed for %2"
+            ldc "DeviceManager.DeviceActivationRequestHandler"
+            aload deviceToBeActivated
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.getTmDevice ()Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual de/audi/atip/log/LogChannel.log (ILjava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+        I:
+            line 921
+            aload this
+            aload deviceToBeActivated
+            invokespecial de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.confirmActivation (Lde/audi/app/terminalmode/device/TMDeviceControl;)V
+            goto P
+        J:
+            line 925
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$400 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/log/LogChannel;
+            ldc 1000000
+            ldc "<!> [%1.requestActivation] activation postponed because already active - %2"
+            ldc "DeviceManager.DeviceActivationRequestHandler"
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual de/audi/atip/log/LogChannel.log (ILjava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+        K:
+            line 926
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$400 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/log/LogChannel;
+            ldc 1000000
+            ldc "<!> [%1.requestActivation] saving request - %2"
+            ldc "DeviceManager.DeviceActivationRequestHandler"
+            aload deviceToBeActivated
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.getTmDevice ()Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual de/audi/atip/log/LogChannel.log (ILjava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+        L:
+            line 929
+            aload this
+            aload deviceToBeActivated
+            putfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.runningActivationRequest Lde/audi/app/terminalmode/device/TMDeviceControl;
+        M:
+            line 930
+            aload deviceToBeActivated
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.getTmDevice ()Lde/audi/app/terminalmode/device/TMDevice;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual java/lang/Object.equals (Ljava/lang/Object;)Z
+            ifne O
+        N:
+            line 932
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual de/audi/app/terminalmode/device/DeviceManager.control (Lde/audi/app/terminalmode/device/TMDevice;)Lde/audi/app/terminalmode/device/TMDeviceControl;
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.deactivationConfirmed ()V
+            goto P
+        O:
+            line 936
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$400 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/log/LogChannel;
+            ldc 1000000
+            ldc "<!> [%1.requestActivation] The Device are equals no need to deactivate-"
+            ldc "DeviceManager.DeviceActivationRequestHandler"
+            invokevirtual de/audi/atip/log/LogChannel.log (ILjava/lang/String;Ljava/lang/Object;)V
+        P:
+            line 940
+            return
+        Q:
+        }
+    }
+
+    .method public requestDeactivation (Lde/audi/app/terminalmode/device/TMDeviceControl;)V {
+        parameters: { this, tmDeviceControl },
+        code: {
+        A:
+            line 947
+            aload tmDeviceControl
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.runningActivationRequest Lde/audi/app/terminalmode/device/TMDeviceControl;
+            invokevirtual java/lang/Object.equals (Ljava/lang/Object;)Z
+            istore i2
+        B:
+            line 948
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$400 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/log/LogChannel;
+            ldc 1000000
+            ldc "[%1.requestDeactivation] activation pending for %2: %3"
+            ldc "DeviceManager.DeviceActivationRequestHandler"
+            aload tmDeviceControl
+            new java/lang/Boolean
+            dup
+            iload i2
+            invokespecial java/lang/Boolean.<init> (Z)V
+            invokevirtual de/audi/atip/log/LogChannel.log (ILjava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V
+        C:
+            line 949
+            iload i2
+            ifne E
+        D:
+            line 952
+            aload tmDeviceControl
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.deactivationConfirmed ()V
+        E:
+            line 954
+            return
+        F:
+        }
+    }
+
+    .method public requestDisconnect (Lde/audi/app/terminalmode/device/TMDeviceControl;)V {
+        parameters: { this, tmDeviceControl },
+        code: {
+        A:
+            line 958
+            aload tmDeviceControl
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.deactivationConfirmed ()V
+        B:
+            line 959
+            return
+        C:
+        }
+    }
+
+    .method private moveSelectionMarker (Lde/audi/app/terminalmode/device/TMDevice;)V {
+        parameters: { this, tmDevice },
+        code: {
+        A:
+            line 968
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$600 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/DeviceManager$DeviceMappings;
+            invokevirtual de/audi/app/terminalmode/device/DeviceManager$DeviceMappings.getDeviceList ()Lde/audi/atip/utils/generics/GList;
+            invokeinterface de/audi/atip/utils/generics/GList.iterator ()Lde/audi/atip/utils/generics/GIterator;
+            astore iterator
+        B:
+            aload iterator
+            invokeinterface de/audi/atip/utils/generics/GIterator.hasNext ()Z
+            ifeq H
+        C:
+            line 971
+            aload iterator
+            invokeinterface de/audi/atip/utils/generics/GIterator.next ()Ljava/lang/Object;
+            checkcast de/audi/app/terminalmode/device/TMDevice
+            astore device
+        D:
+            line 972
+            aload device
+            aload tmDevice
+            if_acmpeq G
+        E:
+            line 974
+            aload device
+            iconst_0
+            invokevirtual de/audi/app/terminalmode/device/TMDevice.setSelected (Z)Lde/audi/app/terminalmode/device/TMDevice;
+            pop
+        G:
+            line 977
+            goto B
+        H:
+            line 979
+            aload tmDevice
+            iconst_1
+            invokevirtual de/audi/app/terminalmode/device/TMDevice.setSelected (Z)Lde/audi/app/terminalmode/device/TMDevice;
+            pop
+        I:
+            line 981
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1600 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/utils/generics/GCopyOnWriteList;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1700 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/utils/generics/GList;
+            new java/lang/StringBuffer
+            dup
+            invokespecial java/lang/StringBuffer.<init> ()V
+            ldc "moveSelectionMarker for"
+            invokevirtual java/lang/StringBuffer.append (Ljava/lang/String;)Ljava/lang/StringBuffer;
+            aload tmDevice
+            invokevirtual java/lang/StringBuffer.append (Ljava/lang/Object;)Ljava/lang/StringBuffer;
+            invokevirtual java/lang/StringBuffer.toString ()Ljava/lang/String;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1800 (Lde/audi/app/terminalmode/device/DeviceManager;Lde/audi/atip/utils/generics/GList;Lde/audi/atip/utils/generics/GList;Ljava/lang/String;)V
+        J:
+            line 982
+            return
+        K:
+        }
+    }
+
+    .method private confirmActivation (Lde/audi/app/terminalmode/device/TMDeviceControl;)V {
+        parameters: { this, tmDeviceControl },
+        code: {
+        A:
+            line 986
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            aload tmDeviceControl
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.getTmDevice ()Lde/audi/app/terminalmode/device/TMDevice;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1502 (Lde/audi/app/terminalmode/device/DeviceManager;Lde/audi/app/terminalmode/device/TMDevice;)Lde/audi/app/terminalmode/device/TMDevice;
+            pop
+        B:
+            line 987
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            new de/audi/app/terminalmode/device/TMDevice
+            dup
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            invokespecial de/audi/app/terminalmode/device/TMDevice.<init> (Lde/audi/app/terminalmode/device/TMDevice;)V
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1902 (Lde/audi/app/terminalmode/device/DeviceManager;Lde/audi/app/terminalmode/device/TMDevice;)Lde/audi/app/terminalmode/device/TMDevice;
+            pop
+        C:
+            line 988
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$2000 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/utils/generics/GCopyOnWriteList;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            ldc "confirmActivation"
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$2100 (Lde/audi/app/terminalmode/device/DeviceManager;Lde/audi/atip/utils/generics/GList;Lde/audi/app/terminalmode/device/TMDevice;Ljava/lang/String;)V
+        D:
+            line 990
+            aload tmDeviceControl
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.activationConfirmed ()V
+        E:
+            line 991
+            return
+        F:
+        }
+    }
+
+    .method public notifyAboutChange (Lde/audi/app/terminalmode/device/TMDevice;Ljava/lang/String;)V {
+        parameters: { this, pDevice, reason },
+        code: {
+        A:
+            line 998
+            aload pDevice
+            invokevirtual de/audi/app/terminalmode/device/TMDevice.getUniqueID ()Lde/audi/app/terminalmode/device/TMDeviceID;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual de/audi/app/terminalmode/device/TMDevice.getUniqueID ()Lde/audi/app/terminalmode/device/TMDeviceID;
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceID.equals (Ljava/lang/Object;)Z
+            istore i3
+        B:
+            line 1000
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual de/audi/app/terminalmode/device/TMDevice.connectionState ()Lde/audi/app/terminalmode/device/TMDevice$ConnectionState;
+            getstatic de/audi/app/terminalmode/device/TMDevice$ConnectionState.ATTACHED Lde/audi/app/terminalmode/device/TMDevice$ConnectionState;
+            getstatic de/audi/app/terminalmode/device/TMDevice$ConnectionState.NOT_ATTACHED Lde/audi/app/terminalmode/device/TMDevice$ConnectionState;
+            invokevirtual de/audi/app/terminalmode/device/TMDevice$ConnectionState.isOneOf (Ljava/lang/Object;Ljava/lang/Object;)Z
+            istore i4
+        C:
+            line 1002
+            aload pDevice
+            invokevirtual de/audi/app/terminalmode/device/TMDevice.connectionState ()Lde/audi/app/terminalmode/device/TMDevice$ConnectionState;
+            getstatic de/audi/app/terminalmode/device/TMDevice$ConnectionState.ACTIVE Lde/audi/app/terminalmode/device/TMDevice$ConnectionState;
+            invokevirtual de/audi/app/terminalmode/device/TMDevice$ConnectionState.is (Ljava/lang/Object;)Z
+            istore i5
+        D:
+            line 1005
+            iload i5
+            ifeq F
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.runningActivationRequest Lde/audi/app/terminalmode/device/TMDeviceControl;
+            ifnull F
+            aload pDevice
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.runningActivationRequest Lde/audi/app/terminalmode/device/TMDeviceControl;
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.getTmDevice ()Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual java/lang/Object.equals (Ljava/lang/Object;)Z
+            ifeq F
+        E:
+            line 1007
+            aload this
+            aconst_null
+            putfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.runningActivationRequest Lde/audi/app/terminalmode/device/TMDeviceControl;
+        F:
+            line 1011
+            iload i4
+            ifeq H
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.runningActivationRequest Lde/audi/app/terminalmode/device/TMDeviceControl;
+            ifnull H
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.runningActivationRequest Lde/audi/app/terminalmode/device/TMDeviceControl;
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.getTmDevice ()Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual java/lang/Object.equals (Ljava/lang/Object;)Z
+            ifeq H
+        G:
+            line 1013
+            aload this
+            aconst_null
+            putfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.runningActivationRequest Lde/audi/app/terminalmode/device/TMDeviceControl;
+        H:
+            line 1017
+            iload i3
+            ifeq S
+            iload i4
+            ifeq S
+        I:
+            line 1019
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.runningActivationRequest Lde/audi/app/terminalmode/device/TMDeviceControl;
+            ifnull O
+        J:
+            line 1021
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.runningActivationRequest Lde/audi/app/terminalmode/device/TMDeviceControl;
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.getTmDevice ()Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual de/audi/app/terminalmode/device/TMDevice.userAcceptState ()Lde/audi/app/terminalmode/device/TMDevice$UserAcceptState;
+            getstatic de/audi/app/terminalmode/device/TMDevice$UserAcceptState.DISCLAIMER_ACCEPTED Lde/audi/app/terminalmode/device/TMDevice$UserAcceptState;
+            invokevirtual de/audi/app/terminalmode/device/TMDevice$UserAcceptState.is (Ljava/lang/Object;)Z
+            ifne M
+        K:
+            line 1023
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$400 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/log/LogChannel;
+            ldc 1000000
+            ldc "<!> [%1.notifyAboutChange] disclaimer declined on pending request - ignore %2"
+            ldc "DeviceManager.DeviceActivationRequestHandler"
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.runningActivationRequest Lde/audi/app/terminalmode/device/TMDeviceControl;
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.getTmDevice ()Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual de/audi/atip/log/LogChannel.log (ILjava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+        L:
+            line 1025
+            aload this
+            aconst_null
+            putfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.runningActivationRequest Lde/audi/app/terminalmode/device/TMDeviceControl;
+            goto S
+        M:
+            line 1029
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$400 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/log/LogChannel;
+            ldc 1000000
+            ldc "<!> [%1.notifyAboutChange] activating pending request %2"
+            ldc "DeviceManager.DeviceActivationRequestHandler"
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.runningActivationRequest Lde/audi/app/terminalmode/device/TMDeviceControl;
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.getTmDevice ()Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual de/audi/atip/log/LogChannel.log (ILjava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+        N:
+            line 1030
+            aload this
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.runningActivationRequest Lde/audi/app/terminalmode/device/TMDeviceControl;
+            invokespecial de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.confirmActivation (Lde/audi/app/terminalmode/device/TMDeviceControl;)V
+            goto S
+        O:
+            line 1035
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$400 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/log/LogChannel;
+            ldc 1000000
+            ldc "[%1.notifyAboutChange] no pending requests present"
+            ldc "DeviceManager.DeviceActivationRequestHandler"
+            invokevirtual de/audi/atip/log/LogChannel.log (ILjava/lang/String;Ljava/lang/Object;)V
+        P:
+            line 1037
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            iconst_0
+            invokevirtual de/audi/app/terminalmode/device/TMDevice.setSelected (Z)Lde/audi/app/terminalmode/device/TMDevice;
+            pop
+        Q:
+            line 1039
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            getstatic de/audi/app/terminalmode/device/TMDevice.INVALID Lde/audi/app/terminalmode/device/TMDevice;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1502 (Lde/audi/app/terminalmode/device/DeviceManager;Lde/audi/app/terminalmode/device/TMDevice;)Lde/audi/app/terminalmode/device/TMDevice;
+            pop
+        R:
+            line 1041
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$2000 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/utils/generics/GCopyOnWriteList;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            ldc "active device deactivated"
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$2100 (Lde/audi/app/terminalmode/device/DeviceManager;Lde/audi/atip/utils/generics/GList;Lde/audi/app/terminalmode/device/TMDevice;Ljava/lang/String;)V
+        S:
+            line 1045
+            iload i3
+            ifeq U
+            iload i4
+            ifne U
+        T:
+            line 1047
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$2000 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/utils/generics/GCopyOnWriteList;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            ldc "active device changed"
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$2100 (Lde/audi/app/terminalmode/device/DeviceManager;Lde/audi/atip/utils/generics/GList;Lde/audi/app/terminalmode/device/TMDevice;Ljava/lang/String;)V
+        U:
+            line 1051
+            iload i3
+            ifne Z
+            aload pDevice
+            invokevirtual de/audi/app/terminalmode/device/TMDevice.isActive ()Z
+            ifeq Z
+        V:
+            line 1053
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$400 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/log/LogChannel;
+            ldc 1000000
+            ldc "[%1.notifyAboutChange] setting active device as selected"
+            ldc "DeviceManager.DeviceActivationRequestHandler"
+            invokevirtual de/audi/atip/log/LogChannel.log (ILjava/lang/String;Ljava/lang/Object;)V
+        W:
+            line 1055
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            aload pDevice
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1502 (Lde/audi/app/terminalmode/device/DeviceManager;Lde/audi/app/terminalmode/device/TMDevice;)Lde/audi/app/terminalmode/device/TMDevice;
+            pop
+        X:
+            line 1059
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            aload pDevice
+            invokevirtual de/audi/app/terminalmode/device/TMDevice.userAcceptState ()Lde/audi/app/terminalmode/device/TMDevice$UserAcceptState;
+            getstatic de/audi/app/terminalmode/device/TMDevice$UserAcceptState.DISCLAIMER_ACCEPTED Lde/audi/app/terminalmode/device/TMDevice$UserAcceptState;
+            invokevirtual de/audi/app/terminalmode/device/TMDevice$UserAcceptState.is (Ljava/lang/Object;)Z
+            invokevirtual de/audi/app/terminalmode/device/TMDevice.setSelected (Z)Lde/audi/app/terminalmode/device/TMDevice;
+            pop
+        Y:
+            line 1061
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$2000 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/utils/generics/GCopyOnWriteList;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            ldc "active device selected"
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$2100 (Lde/audi/app/terminalmode/device/DeviceManager;Lde/audi/atip/utils/generics/GList;Lde/audi/app/terminalmode/device/TMDevice;Ljava/lang/String;)V
+        Z:
+            line 1065
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1600 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/utils/generics/GCopyOnWriteList;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1700 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/atip/utils/generics/GList;
+            new java/lang/StringBuffer
+            dup
+            invokespecial java/lang/StringBuffer.<init> ()V
+            aload reason
+            invokevirtual java/lang/StringBuffer.append (Ljava/lang/String;)Ljava/lang/StringBuffer;
+            ldc "for device: "
+            invokevirtual java/lang/StringBuffer.append (Ljava/lang/String;)Ljava/lang/StringBuffer;
+            aload pDevice
+            invokevirtual java/lang/StringBuffer.append (Ljava/lang/Object;)Ljava/lang/StringBuffer;
+            invokevirtual java/lang/StringBuffer.toString ()Ljava/lang/String;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1800 (Lde/audi/app/terminalmode/device/DeviceManager;Lde/audi/atip/utils/generics/GList;Lde/audi/atip/utils/generics/GList;Ljava/lang/String;)V
+        AA:
+            line 1066
+            return
+        AB:
+        }
+    }
+
+    .method public deleteMe (Lde/audi/app/terminalmode/device/TMDeviceControl;)V {
+        parameters: { this, tmDeviceControl },
+        code: {
+        A:
+            line 1073
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$600 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/DeviceManager$DeviceMappings;
+            aload tmDeviceControl
+            invokevirtual de/audi/app/terminalmode/device/DeviceManager$DeviceMappings.deleteDeviceFromPersistence (Lde/audi/app/terminalmode/device/TMDeviceControl;)V
+        B:
+            line 1074
+            aload tmDeviceControl
+            invokevirtual de/audi/app/terminalmode/device/TMDeviceControl.getTmDevice ()Lde/audi/app/terminalmode/device/TMDevice;
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1500 (Lde/audi/app/terminalmode/device/DeviceManager;)Lde/audi/app/terminalmode/device/TMDevice;
+            invokevirtual java/lang/Object.equals (Ljava/lang/Object;)Z
+            ifeq D
+        C:
+            line 1076
+            aload this
+            getfield de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.this$0 Lde/audi/app/terminalmode/device/DeviceManager;
+            getstatic de/audi/app/terminalmode/device/TMDevice.INVALID Lde/audi/app/terminalmode/device/TMDevice;
+            invokestatic de/audi/app/terminalmode/device/DeviceManager.access$1502 (Lde/audi/app/terminalmode/device/DeviceManager;Lde/audi/app/terminalmode/device/TMDevice;)Lde/audi/app/terminalmode/device/TMDevice;
+            pop
+        D:
+            line 1078
+            aload this
+            getstatic de/audi/app/terminalmode/device/TMDevice.INVALID Lde/audi/app/terminalmode/device/TMDevice;
+            ldc "deleted"
+            invokevirtual de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.notifyAboutChange (Lde/audi/app/terminalmode/device/TMDevice;Ljava/lang/String;)V
+        E:
+            line 1079
+            return
+        F:
+        }
+    }
+
+    .method synthetic <init> (Lde/audi/app/terminalmode/device/DeviceManager;Lde/audi/app/terminalmode/device/DeviceManager$1;)V {
+        parameters: { this, x0, x1 },
+        code: {
+        A:
+            line 885
+            aload this
+            aload x0
+            invokespecial de/audi/app/terminalmode/device/DeviceManager$DeviceActivationRequestHandler.<init> (Lde/audi/app/terminalmode/device/DeviceManager;)V
+            return
+        B:
+        }
+    }
+
+}
