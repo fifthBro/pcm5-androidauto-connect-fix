@@ -1,14 +1,14 @@
 # pcm5-androidauto-connect-fix
-Fix for NATIVE_SELECTED bug in Porsche PCM5 (MH2P) Android Auto implementation 
+Fix for bug that's causing NATIVE_SELECTED phone setting in Porsche PCM5 (MH2P) Android Auto implementation.
 
-This repository contains fix for the device-activation state machine used by the Android Auto / CarPlay integration in Porsche PCM5 (MH2P) system on firmwares between 26xx and 28xx.
-1) bytecode fix for DeviceManager$DeviceActivationRequestHandler.moveSelectionMarker() setting wrong NATIVE_SELECTED state
+This repository contains fix for the device-activation state machine used by the Android Auto / CarPlay integration in Porsche PCM5 (MH2P) on firmwares between 26xx and 28xx.
+1) bytecode fix for DeviceManager$DeviceActivationRequestHandler.moveSelectionMarker() setting wrong NATIVE_SELECTED state tha prevents phonesf
 2) Tool "fix_partition_1008" to fix all phone entries stored in the sqlite persistence database.
 3) Mini MH2p_SD_ModKit Mod (can only be applied after enabling Android Auto with MH2p_SD_ModKit  ->  Android Auto Mod), but ultimately that fix is going to end up in the main MH2p_SD_ModKit Android Auto.
 
 ##  1. The reconnection bug in TerminalMode Device Java code
 
-### Observed sequence
+### Problematic sequence
 
 1. *Phone1 connects → Android Auto works* ✅  
 2. *Phone1 disconnects → Phone2 connects → Android Auto works* ✅  
@@ -106,7 +106,7 @@ Patch is loaded via bootclasspath injection in lsd.sh script.
 ## 2. Incorect persistence state in sqlite database
 After installing the the bytecode fix,  `DeviceManager$DeviceActivationRequestHandler.moveSelectionMarker()` will behave correctly however persistence database will still keep NATIVE_SELECTED instead of DISCLAIMER_ACCEPTED.
 
- The to fix that `userAcceptState` strings in partition 1008 of sqlite persistence database has to be changed from `"NATIVE_SELECTED"` to `"DISCLAIMER_ACCEPTED"`.
+ To fix that `userAcceptState` strings in partition 1008 of sqlite persistence database has to be changed from `"NATIVE_SELECTED"` to `"DISCLAIMER_ACCEPTED"`.
  ``` 
  Storage Format (Java serialization):
    [8 bytes: CRC32 as long (big-endian)]
@@ -125,11 +125,11 @@ After installing the the bytecode fix,  `DeviceManager$DeviceActivationRequestHa
 ``` 
  ### The Solution
 
-  This repository provides repair tools for Partition 1008 
+  This repository provides repair tool for Partition 1008 
   - Replaces "NATIVE_SELECTED" → "DISCLAIMER_ACCEPTED" strings
   - Correctly recalculates and updates CRC32 checksum 
   - Ensures device list loads successfully 
-  - Compiles from basic C version
+  - Can be compiled  from simple C source code
 
 ### Features
 
@@ -157,7 +157,7 @@ ARM v7 LE toolchain
   ```
   gcc -o fix_partition_1008 fix_partition_1008.c -lsqlite3 -lz
 ```
-  Copy fix_partition_1008 to unit
+  Copy fix_partition_1008 to mh2p/PCM5
   
 ###  Usage: 
     
@@ -179,15 +179,16 @@ ARM v7 LE toolchain
 # 3. Android Auto Fix that can be installed with MH2p ModKit Mod
 
 ### Based on Modkit v2.
-### Automatically checks whether the unit is Porsche and running 26xx–28xx firmware.
+### Automatically checks whether the unit is Porsche and running 26xx–28xx firmware
+### Install the bytecode fix
 ### Repairs the persistence partition in sqlite end-to-end (blob length, CRC32, and the other tricky bits), so a factory reset should no longer be required.
 
-## Add it to MH2p SD ModKit
+## To install it on mh2p/PCM5 system add it to MH2p SD ModKit
 Put the AndroidAuto_Fix directory into MH2p SD ModKit Mods/ directory as per instructions https://lawpaul.github.io/MH2p_SD_ModKit_Site/
 
 ## Install using the official MH2p SD ModKit https://lawpaul.github.io/MH2p_SD_ModKit_Site/
 
-alongside Android Auto Mod https://github.com/LawPaul/MH2p_AndroidAuto
+alongside Android Auto Mod https://github.com/LawPaul/MH2p_AndroidAuto (if it wasn't installed before)
 
 ## After reboot, Android Auto won't require factory reset when connecting multiple devices
 
