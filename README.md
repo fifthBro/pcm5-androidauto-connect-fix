@@ -2,10 +2,11 @@
 Fix for NATIVE_SELECTED bug in Porsche PCM5 (MH2P) Android Auto implementation 
 
 This repository contains fix for the device-activation state machine used by the Android Auto / CarPlay integration in Porsche PCM5 (MH2P) system on firmwares between 26xx and 28xx.
-- bytecode fix for DeviceManager$DeviceActivationRequestHandler.moveSelectionMarker() state-reset bu
-- Tool "fix_partition_1008" to patch the stored phone pesistence database in sqlite format. 
+1) bytecode fix for DeviceManager$DeviceActivationRequestHandler.moveSelectionMarker() setting wrong NATIVE_SELECTED state
+2) Tool "fix_partition_1008" to fix all phone entries stored in the sqlite persistence database.
+3) Mini MH2p_SD_ModKit Mod (can only be applied after enabling Android Auto with MH2p_SD_ModKit  ->  Android Auto Mod), but ultimately that fix is going to end up in the main MH2p_SD_ModKit Android Auto.
 
-##  1. The reconnection bug in TerminalMode Device java code
+##  1. The reconnection bug in TerminalMode Device Java code
 
 ### Observed sequence
 
@@ -174,6 +175,21 @@ ARM v7 LE toolchain
   - Multiple device scenarios (2+ phones)
   - Cold reset scenarios
   - CRC32 validation
+
+# 3. Android Auto Fix that can be installed with MH2p ModKit Mod
+
+### Based on Modkit v2.
+### Automatically checks whether the unit is Porsche and running 26xx–28xx firmware.
+### Repairs the persistence partition in sqlite end-to-end (blob length, CRC32, and the other tricky bits), so a factory reset should no longer be required.
+
+## Add it to MH2p SD ModKit
+Put the AndroidAuto_Fix directory into MH2p SD ModKit Mods/ directory as per instructions https://lawpaul.github.io/MH2p_SD_ModKit_Site/
+
+## Install using the official MH2p SD ModKit https://lawpaul.github.io/MH2p_SD_ModKit_Site/
+
+alongside Android Auto Mod https://github.com/LawPaul/MH2p_AndroidAuto
+
+## After reboot, Android Auto won't require factory reset when connecting multiple devices
 
  # Credits
 
