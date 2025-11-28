@@ -154,7 +154,7 @@ After installing the the bytecode fix,  `DeviceManager$DeviceActivationRequestHa
   Copy fix_partition_1008 executable to mh2p/PCM5 with any method (or preferably just use MH2p SD ModKit)
   
 ###  Usage: 
-    ```
+    
     fix_partition_1008 [--list] [--dry-run] [--fix] [--db-path PATH] [--no-backup]
     
     Options:
