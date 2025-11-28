@@ -10,9 +10,9 @@ This repository contains fix for the device-activation state machine used by the
 
 ### Problematic sequence
 
-1. *Phone1 connects → Android Auto works* ✅  
-2. *Phone1 disconnects → Phone2 connects → Android Auto works* ✅  
-3. *Phone2 disconnects → Phone1 reconnects → USB charging mode* ❌  
+1. Phone1 connects → Android Auto works ✅  
+2. Phone1 disconnects → Phone2 connects → Android Auto works ✅  
+3. Phone2 disconnects → Phone1 reconnects → USB charging mode ❌  
 
 
 ## Device State Machine
@@ -104,9 +104,9 @@ Other logic remains identical and device disclaimer acceptance is now preserved
 Patch is loaded via bootclasspath injection in lsd.sh script.
 
 ## 2. Incorect persistence state in sqlite database
-After installing the the bytecode fix,  `DeviceManager$DeviceActivationRequestHandler.moveSelectionMarker()` will behave correctly however persistence database will still keep NATIVE_SELECTED instead of DISCLAIMER_ACCEPTED.
+After installing the the bytecode fix,  `DeviceManager$DeviceActivationRequestHandler.moveSelectionMarker()` will behave correctly however persistence database will still keep `NATIVE_SELECTED` instead of `DISCLAIMER_ACCEPTED`.
 
- To fix that `userAcceptState` strings in partition 1008 of sqlite persistence database has to be changed from `"NATIVE_SELECTED"` to `"DISCLAIMER_ACCEPTED"`.
+ To fix that `userAcceptState` strings in `partition 1008` of sqlite persistence database has to be changed from `"NATIVE_SELECTED"` to `"DISCLAIMER_ACCEPTED"`.
  ``` 
  Storage Format (Java serialization):
    [8 bytes: CRC32 as long (big-endian)]
@@ -126,7 +126,7 @@ After installing the the bytecode fix,  `DeviceManager$DeviceActivationRequestHa
  ### The Solution
 
   This repository provides repair tool for Partition 1008 
-  - Replaces "NATIVE_SELECTED" → "DISCLAIMER_ACCEPTED" strings
+  - Replaces `NATIVE_SELECTED` → `DISCLAIMER_ACCEPTED` strings
   - Correctly recalculates and updates CRC32 checksum 
   - Ensures device list loads successfully 
   - Can be compiled  from simple C source code
@@ -138,29 +138,23 @@ After installing the the bytecode fix,  `DeviceManager$DeviceActivationRequestHa
   - ✅ Dry-run mode to preview changes
   - ✅ List mode to show affected devices
   - ✅ Supports unlimited devices per system
-  - ✅ Works with QNX 6.6 (ARM) and standard Linux/Windows
+  - ✅ Works with QNX 6.6 (ARM) and Linux/Windows
 
 ###  Requirements
 
-  ```
-  - sqlite3.so
-  - zlib.so
-
-  C version:
-  - GCC compiler
+  - GCC compiler (ARM v7 LE toolchain)
   - libsqlite3
   - zlib
-```
+
 ###  Installation
 
-ARM v7 LE toolchain 
   ```
   gcc -o fix_partition_1008 fix_partition_1008.c -lsqlite3 -lz
 ```
-  Copy fix_partition_1008 to mh2p/PCM5
+  Copy fix_partition_1008 executable to mh2p/PCM5 with any method (or preferably just use MH2p SD ModKit)
   
 ###  Usage: 
-    
+    ```
     fix_partition_1008 [--list] [--dry-run] [--fix] [--db-path PATH] [--no-backup]
     
     Options:
@@ -169,7 +163,7 @@ ARM v7 LE toolchain
     --fix         Actually apply the fix (modifies database)
     --db-path     Path to persistence database (default: /mnt/persist_new/persistence/persistence.sqlite)
     --no-backup   Skip backup creation
-
+```
 ###  Tested on:
   - Porsche PCM5 (MH2P) with DeviceManager$DeviceActivationRequestHandler.moveSelectionMarker() bytecode fix
   - Multiple device scenarios (2+ phones)
@@ -178,10 +172,14 @@ ARM v7 LE toolchain
 
 # 3. Android Auto Fix that can be installed with MH2p ModKit Mod
 
-### Based on Modkit v2.
-### Automatically checks whether the unit is Porsche and running 26xx–28xx firmware
-### Install the bytecode fix
-### Repairs the persistence partition in sqlite end-to-end (blob length, CRC32, and the other tricky bits), so a factory reset should no longer be required.
+###
+Based on MH2p SD ModKit.
+### 
+Automatically checks whether the unit is Porsche and running 26xx–28xx firmware
+### 
+Install the bytecode fix
+### 
+Repairs the persistence partition in sqlite end-to-end (blob length, CRC32, and the other tricky bits), so a factory reset should no longer be required.
 
 ## To install it on mh2p/PCM5 system add it to MH2p SD ModKit
 Put the AndroidAuto_Fix directory into MH2p SD ModKit Mods/ directory as per instructions https://lawpaul.github.io/MH2p_SD_ModKit_Site/
@@ -192,6 +190,6 @@ alongside Android Auto Mod https://github.com/LawPaul/MH2p_AndroidAuto (if it wa
 
 ## After reboot, Android Auto won't require factory reset when connecting multiple devices
 
- # Credits
+ # 4. Credits
 
   Part of the https://lawpaul.github.io/MH2p_SD_ModKit_Site/ project.
