@@ -163,7 +163,7 @@ After installing the the bytecode fix,  `DeviceManager$DeviceActivationRequestHa
     --fix         Actually apply the fix (modifies database)
     --db-path     Path to persistence database (default: /mnt/persist_new/persistence/persistence.sqlite)
     --no-backup   Skip backup creation
-```
+
 ###  Tested on:
   - Porsche PCM5 (MH2P) with DeviceManager$DeviceActivationRequestHandler.moveSelectionMarker() bytecode fix
   - Multiple device scenarios (2+ phones)
